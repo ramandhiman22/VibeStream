@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vibe Stream Premium Payment</title>
+    <link rel="stylesheet" href="/stylesheets/style.css"> <!-- Link to your CSS file -->
+    <style>
+        /* General Body Styling */
+        body {
+            font-family: Arial, sans-serif;
+            color: #f0f0f0;
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+                url("/images/musbackround1_08.jpg");
+            background-size: cover;
+            background-repeat: no-repeat;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Container Styling */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px; 
+            /* background: rgba(0, 0, 0, 0.8); */
+           
+            /* Semi-transparent background for readability */
+            border-radius: 8px;
+        }
+
+        /* Header Styling */
+        header {
+            text-align: center;
+            padding: 20px;
+            border-bottom: 2px solid #444;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            color: #ffffff;
+        }
+
+        header p {
+            font-size: 1.2em;
+            color: #cccccc;
+        }
+
+        /* Premium Details Section */
+        .premium-details {
+            margin: 20px 0;
+            padding: 20px;
+            background: #1e1e1e;
+            border-radius: 8px;
+        }
+
+        .premium-details h2 {
+            margin-top: 0;
+            font-size: 2em;
+            color: #1DB954;
+            /* Gold color for highlighting */
+        }
+
+        .premium-details p {
+            font-size: 1.1em;
+            color: #dddddd;
+        }
+
+        /* Payment Section */
+        .payment-section {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .pay-btn {
+            padding: 10px 20px;
+            font-size: 1.2em;
+            color: #fff;
+            background-color: #1DB954;
+            /* Gold color for button */
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .pay-btn:hover {
+            background-color: #55ff91;
+            /* Slightly darker gold on hover */
+        }
+
+        /* Footer Styling */
+        footer {
+            text-align: center;
+            padding: 10px;
+            border-top: 2px solid #444;
+            margin-top: 20px;
+        }
+
+        footer p {
+            margin: 0;
+            color: #999999;
+        }
+
+        .logo a {
+            margin: 10px;
+        }
+
+        .logo img {
+            height: 50px;
+            width: 50px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            display: flex;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="logo" onclick="window.location.href='/'">
+            <a id="theme-toggle"><img src="/images/music-player.png" alt=""></a>
+            <p>Vibe Stream</p>
+        </div>
+        <header>
+            <h1>Vibe Stream Premium</h1>
+            <p>Unlock the full potential of Vibe Stream with our premium subscription.</p>
+        </header>
+
+        <section class="premium-details">
+            <h2>Premium Plan</h2>
+            <p><strong>Plan Name:</strong> Vibe Stream Premium</p>
+            <p><strong>Description:</strong> Access to all premium features of Vibe Stream, including exclusive content,
+                ad-free listening, and more.</p>
+            <p><strong>Price:</strong> $9.99</p>
+        </section>
+
+        <section class="payment-section">
+            <form action="/Premium/pay" method="POST">
+                <button type="submit" class="pay-btn">Proceed to Payment</button>
+            </form>
+        </section>
+
+        <footer>
+            <p>&copy; 2024 Vibe Stream. All rights reserved.</p>
+        </footer>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vibe Stream - Top Playlists</title>
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <link rel="icon" type="image/x-icon" href="/images/music-player.png">
+    <script src="https://kit.fontawesome.com/3b7b3f7ace.js" crossorigin="anonymous"></script>
+    <style>
+        body {
+            background-color: #121212; /* Example background color */
+            color: #ffffff; /* Text color */
+            font-family: Arial, sans-serif; /* Example font */
+        }
+
+        .playlists-container {
+            padding: 20px;
+        }
+
+        h3 {
+            margin: 20px 0;
+            font-size: 24px;
+        }
+
+        .playlists-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .playlist-item {
+            background-size: cover;
+            background-position: center;
+            width: 320px;
+            height: 200px;
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .playlist-item:hover {
+            transform: scale(1.05);
+        }
+
+        .playlist-title {
+            position: absolute;
+            bottom: 10px;
+            
+            left: 100px;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+
+        .playlist-page {
+            padding: 20px;
+        }
+
+        .playlist-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+
+        .playlist-image {
+            width: 200px;
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+            border-radius: 15px;
+            margin-right: 20px;
+        }
+
+        .playlist-info {
+            flex-grow: 1;
+        }
+
+        .playlist-info h1 {
+            font-size: 36px;
+            margin: 0;
+        }
+
+        .playlist-info p {
+            color: #888;
+            margin: 5px 0;
+        }
+
+        .playlist-actions button {
+            background-color: #e60023;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .playlist-tracks {
+            margin-top: 20px;
+        }
+
+        .playlist-tracks h2 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .playlist-tracks table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .playlist-tracks th,
+        .playlist-tracks td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        .playlist-tracks tr:hover {
+            background-color: #333;
+        }
+
+        .track-image {
+            width: 50px;
+            height: 50px;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+
+        .download-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .download-btn:hover {
+            color: #e60023;
+        }
+    </style>
+</head>
+
+<body class="dark-theme">
+    <%- include('../partials/header') %>
+
+    <% if (playlistList) { %>
+        <section class="playlists-container">
+            <h3>Top Playlists</h3>
+            <div class="playlists-grid">
+                <% playlistList.forEach(playlist => { %>
+                    <div class="playlist-item" style="background-image: url('<%= playlist.imagePath %>');" 
+                         onclick="viewPlaylist('<%= playlist.id %>')">
+                        <div class="playlist-title">
+                            <p><%= playlist.name %></p>
+                        </div>
+                    </div>
+                <% }); %>
+            </div>
+        </section>
+        <%- include('../music.ejs') %>
+    <% } %>
+
+    <% if (playlist) { %>
+        <div class="playlist-page">
+            <!-- Playlist Header Section -->
+            <div class="playlist-header">
+                <div class="playlist-image" style="background-image: url('/<%= playlist.imagePath %>');">
+                    <% if (!playlist.imagePath) { %>
+                        <div class="fallback-image">No Image</div>
+                    <% } %>
+                </div>
+                <div class="playlist-info">
+                    <h1><%= playlist.name || 'Unknown Playlist' %></h1>
+                    <p><%= playlist.description || 'No description available' %></p>
+                    <div class="playlist-actions">
+                        <% if (trackList.length > 0) { %>
+                            <button class="play-now" 
+                                    onclick="playSong('<%= trackList[0].songPath %>', '<%= trackList[0].image %>', '<%= trackList[0].title %>', '<%= trackList[0].artist %>')">Play Now</button>
+                        <% } else { %>
+                            <button class="play-now" disabled>No Tracks Available</button>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tracks Section -->
+            <div class="playlist-tracks">
+                <h2>Tracks in this Playlist</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Track</th>
+                            <th>Artist</th>
+                            <th></th> <!-- For the download button -->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% trackList.forEach((track, index) => { %>
+                            <tr onclick="playSong('<%= track.songPath %>', '<%= track.image %>', '<%= track.title %>', '<%= track.artist %>', true)">
+                                <td><%= index + 1 %></td>
+                                <td>
+                                    <img src="<%= track.image %>" alt="<%= track.title %>" class="track-image">
+                                    <%= track.title %>
+                                </td>
+                                <td><%= track.artist %></td>
+                                <td>
+                                    <button class="download-btn" data-url="/download/<%= track.id %>">
+                                        <i class="fa-solid fa-arrow-down"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        <% }); %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <%- include('../music.ejs') %>
+    <% } %>
+
+    <%- include('../partials/footer') %>
+
+    <script>
+        function viewPlaylist(playlistId) {
+            window.location.href = '/playlist/' + playlistId;
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vibe Stream</title>
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <link rel="icon" type="image/x-icon" href="/images/music-player.png">
+    <script src="https://kit.fontawesome.com/3b7b3f7ace.js" crossorigin="anonymous"></script>
+    <style>
+        .new-releases-container2 {
+            position: relative;
+            width: 100%;
+            /* Adjust height as needed */
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            /* Ensures that the overflow doesn't show */
+        }
+
+        .new-releases2 {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            /* 4 items per row */
+            gap: 20px;
+            /* Space between items */
+            padding: 10px;
+            height: 100%;
+            scrollbar-width: none;
+            /* Hide scrollbar in Firefox */
+            -ms-overflow-style: none;
+            /* Hide scrollbar in Internet Explorer 10+ */
+        }
+
+        .new-releases2::-webkit-scrollbar {
+            display: none;
+            /* Hide scrollbar in Chrome, Safari, and Opera */
+        }
+
+        .release-item2 {
+            background-size: cover;
+            background-position: center;
+            width: 340px;
+            /* Fill container width */
+            height: 200px;
+            /* Adjust height as needed */
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.5s ease;
+            flex-shrink: 0;
+        }
+
+        .release-item2:hover {
+            transform: scale(1.05);
+        }
+
+        .release-title2 p {
+            font-size: 16px;
+            font-weight: bold;
+            color: white;
+            margin-top: 160px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body class="dark-theme">
+    <%- include('../partials/header') %>
+
+    <section class="main-content">
+
+        <!-- New Releases Section -->
+        <h3 style="margin-left: 10px;">New Releases</h3>
+        <div class="new-releases-container2">
+            <div class="new-releases2">
+                <% newReleases.forEach(release=> { %>
+                    <div class="release-item2" style="background-image: url('<%= release.image %>');"
+                        onclick="playSong('<%= release.songPath %>', '<%= release.image %>', '<%= release.title %>', '<%= release.artist %>')">
+                        <div class="release-title2">
+                            <p>
+                                <%= release.title %>
+                            </p>
+                        </div>
+                    </div>
+                    <% }); %>
+            </div>
+            <script id="new-releases-data" type="application/json" data-new-releases='<%= JSON.stringify(newReleases) %>'></script>
+        </div>
+        <%- include('../music.ejs') %>
+    </section>
+
+    <%- include('../partials/footer') %>
+
+    <script src="/javascripts/control.js"></script>
+    <script src="/javascripts/script.js"></script>
+</body>
+
+</html>

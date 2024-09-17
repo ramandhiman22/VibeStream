@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete Items</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            transition: background-color 0.3s, color 0.3s;
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+                url("/images/musbackround1_08.jpg");
+            background-size: cover;
+            background-repeat: no-repeat;
+            color: #ffffff;
+            margin: 0;
+            padding: 20px;
+            font-style: italic;
+        }
+               /* Header Styling */
+               header {
+            /* background: #1a1a2e; */
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        .logo p {
+            margin: 10px;
+        }
+
+        .logo img {
+            height: 50px;
+            width: 50px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            display: flex;
+        }
+
+
+        h2, h3 {
+            color: #1DB954;
+            text-align: center;
+        }
+
+        .delete-items {
+            max-width: 800px;
+            margin: 0 auto;
+            /* background-color: #1e1e1e; */
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #333;
+        }
+
+        li:last-child {
+            border-bottom: none;
+        }
+
+        .btn {
+            background-color: #1DB954;
+            color: #ffffff;
+            padding: 8px 16px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #148f3b;
+        }
+
+        .delete-btn {
+            background-color: #ff3b3b;
+        }
+
+        .delete-btn:hover {
+            background-color: #e32e2e;
+        }
+        h3{
+            font-size: 30px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <a id="theme-toggle"><img src="/images/music-player.png" alt="" onclick="window.location.href='/admin/dashboard'"></a>
+            <p>Vibe Stream</p>
+        </div>
+    </header>
+    <section class="delete-items">
+        <h2>Delete Items</h2>
+
+        <h3>Tracks</h3>
+        <ul>
+            <% tracks.forEach(track => { %>
+                <li>
+                    <span>Title: <%= track.title %> | Artist: <%= track.artist %></span>
+                    <form action="/track/delete/track/<%= track.id %>" method="post" style="display:inline;"  onsubmit="return confirmDelete();">
+                        <button type="submit" class="btn delete-btn">Delete</button>
+                    </form>
+                </li>
+            <% }); %>
+        </ul>
+
+        <h3>Albums</h3>
+        <ul>
+            <% albums.forEach(album => { %>
+                <li>
+                    <span>
+                        Title: <%= album.Title %> | Artist: <%= album.Artist %> | Genre: <%= album.Genre %> | Release Date: <%= album.ReleaseDate %>
+                    </span>
+                    <form action="/track/delete/album/<%= album.Album_ID %>" method="post" style="display:inline;"  onsubmit="return confirmDelete();">
+                        <button type="submit" class="btn delete-btn">Delete</button>
+                    </form>
+                </li>
+            <% }); %>
+        </ul>
+
+        <h3>Playlists</h3>
+        <ul>
+            <% playlists.forEach(playlist => { %>
+                <li>
+                    <span><%= playlist.Name %></span>
+                    <form action="/track/delete/playlist/<%= playlist.Playlist_ID %>" method="post" style="display:inline;"  onsubmit="return confirmDelete();">
+                        <button type="submit" class="btn delete-btn">Delete</button>
+                    </form>
+                </li>
+            <% }); %>
+            
+        </ul>
+
+        <h3>Genres</h3>
+        <ul>
+            <% genres.forEach(genre => { %>
+                <li>
+                    <span><%= genre.name %></span>
+                    <form action="/track/delete/genre/<%= genre.id %>" method="post" style="display:inline;" onsubmit="return confirmDelete();">
+                        <button type="submit" class="btn delete-btn">Delete</button>
+                    </form>
+                </li>
+            <% }); %>
+        </ul>
+    </section>
+    <script>
+         function confirmDelete() {
+            return confirm("Are you sure you want to delete this item?");
+        }
+    </script>
+</body>
+</html>

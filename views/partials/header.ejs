@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Vibe Stream</title>
+        <!-- <link rel="stylesheet" href="/stylesheets/style.css"> -->
+        <link rel="icon" type="image/x-icon" href="/images/music-player.png">
+        <script src="https://kit.fontawesome.com/3b7b3f7ace.js" crossorigin="anonymous"></script>
+    </head>
+<body>
+    <header class="header">
+        <div class="logo" onclick="window.location.href='/'">
+            <a id="theme-toggle"><img src="/images/music-player.png" alt=""></a>
+            <p>Vibe Stream</p>
+        </div>
+        <div class="search-container">
+            <form action="/search" method="get">
+                <input type="text" name="query" placeholder="Search Songs" class="search-input" required>
+            </form>
+        </div>
+        <div class="header-right">
+            <button class="manage-subscription"  onclick="window.location.href='/Premium'">Manage Subscription</button>
+
+            <% if (user) { %>
+                <div class="user-profile" onclick="viewProfile('<%= user.id %>')">
+                    <i class="fa-regular fa-user"></i>
+                    <span>
+                        <%= user.name %>
+                    </span>
+                </div>
+                <% } else { %>
+                    <button class="login" onclick="window.location.href='/auth/login'">Login</button>
+                    <% } %>
+        </div>
+    </header>
+    <nav class="nav-bar">
+        <ul>
+            <li onclick="window.location.href='/'">Home</li>
+            <li onclick="window.location.href='/Trending'">Trending Now</li>
+            <li onclick="window.location.href='/genres'">Moods & Genre</li>
+            <li onclick="window.location.href='/albums'">Top Albums</li>
+            <li onclick="window.location.href='/Artists'">Top Artists</li>
+            <li onclick="window.location.href='/playlists'">Top Playlists</li>
+        </ul>
+    </nav>
+
+</body>
+</html>

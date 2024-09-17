@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vibe Stream - Top Albums</title>
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <link rel="icon" type="image/x-icon" href="/images/music-player.png">
+    <script src="https://kit.fontawesome.com/3b7b3f7ace.js" crossorigin="anonymous"></script>
+    <style>
+        .albums-container {
+            position: relative;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .albums-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            padding: 10px;
+            height: 100vh;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .albums-grid::-webkit-scrollbar {
+            display: none;
+        }
+
+        .album-item {
+            background-size: cover;
+            background-position: center;
+            width: 340px;
+            height: 200px;
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.5s ease;
+            flex-shrink: 0;
+        }
+
+        .album-item:hover {
+            transform: scale(1.05);
+        }
+
+        .album-title p {
+            font-size: 16px;
+            font-weight: bold;
+            color: white;
+            margin-top: 160px;
+            text-align: center;
+        }
+
+        .album-page {
+            padding: 20px;
+        }
+
+        .album-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .album-image {
+            width: 200px;
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+            border-radius: 15px;
+        }
+
+        .album-info h1 {
+            font-size: 36px;
+            margin: 10px;
+        }
+
+        .album-info p {
+            font-size: 16px;
+            color: #888;
+            margin: 5px 0 20px 0;
+        }
+
+        .album-actions button {
+            background-color: #e60023;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin-right: 10px;
+            cursor: pointer;
+            border-radius: 50px;
+            font-size: 16px;
+        }
+
+        .album-actions .follow {
+            background-color: transparent;
+            border: 1px solid white;
+        }
+
+        .album-tracks h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .album-tracks table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .album-tracks th,
+        .album-tracks td {
+            text-align: left;
+            padding: 10px;
+        }
+
+        .album-tracks tr {
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .album-tracks tr:hover {
+            background-color: #333;
+        }
+
+        .album-tracks img {
+            width: 50px;
+            height: 50px;
+            border-radius: 4px;
+            margin-right: 10px;
+        }
+
+        .download-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .download-btn:hover {
+            color: #e60023;
+        }
+    </style>
+</head>
+
+<body class="dark-theme">
+    <%- include('../partials/header') %>
+        <% if (albumList) { %>
+            <section class="main-content">
+                <h3 style="margin-left: 10px;">Top Albums</h3>
+                <div class="albums-container">
+                    <div class="albums-grid">
+                        <% albumList.forEach(album=> { %>
+                            <div class="album-item" style="background-image: url('<%= album.imagePath %>');"
+                                onclick="viewAlbum('<%= album.id %>')">
+                                <div class="album-title">
+                                    <p>
+                                        <%= album.title %>
+                                    </p>
+                                </div>
+                            </div>
+                            <% }); %>
+                    </div>
+                </div>
+                <%- include('../music.ejs') %>
+            </section>
+            <% }; %>
+                <% if (album) { %>
+                    <div class="album-page">
+                        <!-- Album Header Section -->
+                        <div class="album-header">
+                            <div class="album-image" style="background-image: url('/<%= album.imagePath %>');">
+                                <!-- Optional: Provide a default background if imagePath is null or empty -->
+                                <% if (!album.imagePath) { %>
+                                    <div class="fallback-image">No Image</div>
+                                    <% } %>
+                            </div>
+                            <div class="album-info">
+                                <h1>
+                                    <%= album.title || 'Unknown Album' %> <!-- Provide a default name if null -->
+                                </h1>
+                                <p>
+                                    <%= album.artist || 'Unknown Artist' %> <!-- Provide a default artist if null -->
+                                </p>
+                                <div class="album-actions">
+                                    <!-- Ensure trackList[0] has valid data -->
+                                    <% if (trackList.length> 0) { %>
+                                        <button class="play-now"
+                                            onclick="playSong('<%= trackList[0].songPath %>', '<%= trackList[0].imagePath %>', '<%= trackList[0].title %>', '<%= trackList[0].artist %>')">Play
+                                            Now</button>
+                                        <% } else { %>
+                                            <button class="play-now" disabled>No Tracks Available</button>
+                                            <% } %>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tracks Section -->
+                        <div class="album-tracks">
+                            <h2>Tracks in this Album</h2>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Track</th>
+                                        <th>Artist</th>
+                                       
+                                        <th></th> <!-- For the download button -->
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% trackList.forEach((track, index)=> { %>
+                                        <tr
+                                            onclick="playSong('<%= track.songPath %>', '<%= track.image %>', '<%= track.title %>', '<%= track.artist %>',true)">
+                                            <td>
+                                                <%= index + 1 %>
+                                            </td>
+                                            <td>
+                                                <img src="<%= track.image %>" alt="<%= track.title %>"
+                                                    class="track-image">
+                                                <%= track.title %>
+                                            </td>
+                                            <td>
+                                                <%= track.artist %>
+                                            </td>
+                                            <td>
+                                                <%= track.duration %> <!-- Display track duration -->
+                                            </td>
+                                            <td>
+                                                <button class="download-btn" data-url="/download/<%= track.id %>">
+                                                    <i class="fa-solid fa-arrow-down"></i>
+                                                </button>
+                                            </td>
+
+                                        </tr>
+                                        <script id="new-releases-data" type="application/json"
+                                            data-new-releases='<%= JSON.stringify(trackList) %>'></script>
+                                        <% }); %>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <%- include('../music.ejs') %>
+                        <script src="/javascripts/script.js"></script>
+                        <script src="/javascripts/control.js"></script>
+
+                        <% } %>
+
+
+                            <%- include('../partials/footer') %>
+
+                                <script>
+                                    function viewAlbum(albumId) {
+                                        window.location.href = '/album/' + albumId;
+                                    }
+                                    function Download(ID) {
+                                        window.location.href = "/download/"+ ID;
+                                    }
+                                </script>
+</body>
+
+</html>

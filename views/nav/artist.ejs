@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vibe Stream - Top Artists</title>
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <link rel="icon" type="image/x-icon" href="/images/music-player.png">
+    <script src="https://kit.fontawesome.com/3b7b3f7ace.js" crossorigin="anonymous"></script>
+    <style>
+        .artists-container {
+            position: relative;
+            width: 100%;
+            height: auto;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .artists-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin: auto;
+            height: 100%;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .artists-grid::-webkit-scrollbar {
+            display: none;
+        }
+
+        .artist-i {
+            background-size: cover;
+            width: 340px;
+            height: 200px;
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.5s ease;
+            flex-shrink: 0;
+        }
+
+        .artist-i:hover {
+            transform: scale(1.05);
+        }
+
+        .artist-title p {
+            font-size: 16px;
+            font-weight: bold;
+            color: white;
+            margin-top: 160px;
+            text-align: center;
+        }
+
+        .artist-page {
+            padding: 20px;
+        }
+
+        .artist-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .artist-image {
+            width: 200px;
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+            border-radius: 50%;
+        }
+
+        .artist-info h1 {
+            font-size: 36px;
+            margin: 10px;
+        }
+
+        .artist-info p {
+            font-size: 16px;
+            color: #888;
+            margin: 5px 0 20px 0;
+        }
+
+        .artist-actions button {
+            background-color: #e60023;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin-right: 10px;
+            cursor: pointer;
+            border-radius: 50px;
+            font-size: 16px;
+        }
+
+        .artist-actions .follow {
+            background-color: transparent;
+            border: 1px solid white;
+        }
+
+        .artist-about {
+            margin-bottom: 40px;
+            margin-left: 100px;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 15px;
+            width: 500px;
+        }
+
+        .artist-about h2 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .artist-tracks h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .artist-tracks table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .artist-tracks th,
+        .artist-tracks td {
+            text-align: left;
+            padding: 10px;
+        }
+
+        .artist-tracks tr {
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .artist-tracks tr:hover {
+            background-color: #333;
+        }
+
+        .artist-tracks img {
+            width: 50px;
+            height: 50px;
+            border-radius: 4px;
+            margin-right: 10px;
+        }
+
+        .download-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .download-btn:hover {
+            color: #e60023;
+        }
+    </style>
+</head>
+
+<body class="dark-theme">
+    <%- include('../partials/header') %>
+    <% if (artistList) { %>
+        <section class="main-content">
+            <h3 style="margin-left: 10px;">Top Artists</h3>
+            <div class="artists-container">
+                <div class="artists-grid">
+                    <% artistList.forEach(artist => { %>
+                        <div class="artist-i" style="background-image: url('<%= artist.imagePath %>');"
+                            onclick="viewArtist('<%= artist.id %>')">
+                            <div class="artist-title">
+                                <p>
+                                    <%= artist.name %>
+                                </p>
+                            </div>
+                        </div>
+                    <% }); %>
+                </div>
+            </div>
+            <%- include('../music.ejs') %>
+        </section>
+    <% } %>
+
+    <% if (artist) { %>
+        <div class="artist-page">
+            <!-- Artist Header Section -->
+            <div class="artist-header">
+                <div class="artist-image" style="background-image: url('/<%= artist.imagePath %>');"></div>
+                <div></div>
+                <div class="artist-info">
+                    <h1>
+                        <%= artist.name %>
+                    </h1>
+                    <div class="artist-actions">
+                        <% if (trackList && trackList.length > 0) { %>
+                            <button class="play-now"
+                                onclick="playSong('<%= trackList[0].songPath %>', '<%= trackList[0].image %>', '<%= trackList[0].title %>', '<%= trackList[0].artist %>')">Play
+                                Now</button>
+                        <% } else { %>
+                            <button class="play-now" disabled>No Tracks Available</button>
+                        <% } %>
+                    </div>
+                </div>
+                <div class="artist-about">
+                    <h2>About <%= artist.name %></h2>
+                    <p>
+                        <%= artist.bio %>
+                    </p>
+                </div>
+            </div>
+
+            <!-- About Artist Section -->
+
+            <!-- Tracks Section -->
+            <div class="artist-tracks">
+                <h2>
+                    <%= artist.name %> Songs
+                </h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Track</th>
+                            <th>Artist</th>
+                            <th></th> <!-- For the download button -->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% newReleases.forEach((release, index) => { %>
+                            <tr
+                                onclick="playSong('<%= release.songPath %>', '<%= release.image %>', '<%= release.title %>', '<%= release.artist %>')">
+                                <td>
+                                    <%= index + 1 %>
+                                </td>
+                                <td>
+                                    <img src="<%= release.image %>" alt="<%= release.title %>"
+                                        class="track-image">
+                                    <%= release.title %>
+                                </td>
+                                <td>
+                                    <%= release.artist %>
+                                </td>
+                                <td>
+                                    <button class="download-btn" data-url="/download/<%= release.id %>">
+                                        <i class="fa-solid fa-arrow-down"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        <% }); %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <%- include('../music.ejs') %>
+        <script src="/javascripts/script.js"></script>
+        <script src="/javascripts/control.js"></script>
+    <% } %>
+
+    <%- include('../partials/footer') %>
+
+    <script>
+        function viewArtist(artistId) {
+            // You can define this function to handle artist clicks
+            // For example, navigate to an artist's details page
+            window.location.href = '/artist/' + artistId;
+        }
+    </script>
+</body>
+
+</html>

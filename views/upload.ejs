@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Content</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            transition: background-color 0.3s, color 0.3s;
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+                url("/images/musbackround1_08.jpg");
+            background-size: cover;
+            background-repeat: no-repeat;
+            color: #ffffff;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1, h3 {
+            color: #1DB954;
+            text-align: center;
+        }
+
+        form {
+            background-color: #1e1e1e;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        label {
+            font-size: 14px;
+            color: #b0b0b0;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        input[type="file"],
+        input[type="date"],
+        button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 8px;
+            margin-bottom: 16px;
+            border-radius: 4px;
+            border: none;
+            font-size: 14px;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        input[type="date"] {
+            background-color: #333;
+            color: #ffffff;
+        }
+
+        button {
+            background-color: #1DB954;
+            color: #ffffff;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background-color: #1DB954;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+        header {
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        .logo p {
+            margin: 10px;
+        }
+
+        .logo img {
+            height: 50px;
+            width: 50px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            display: flex;
+        }
+
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="logo">
+            <a id="theme-toggle"><img src="/images/music-player.png" alt="" onclick="window.location.href='/admin/dashboard'"></a>
+            <p>Vibe Stream</p>
+        </div>
+    </header>
+    <h3>Upload Music</h3>
+    <form action="/track/upload" method="post" enctype="multipart/form-data">
+        <input type="text" name="title" placeholder="Song Title" required>
+        <input type="text" name="artist" placeholder="Artist" required>
+        <input type="number" name="Duration" placeholder="Duration in seconds" required>
+        <input type="text" name="Vibe" placeholder="Playlist" required>
+        <input type="text" name="albumName" placeholder="Album Name">
+        <input type="text" name="genreName" placeholder="Genre Name" >
+        <input type="file" name="song" accept="audio/*" required>
+        <input type="file" name="image" accept="image/*" required>
+        <button type="submit">Upload Song</button>
+    </form>
+
+    <h3>Upload Artist</h3>
+    <form action="/track/upload-artist" method="POST" enctype="multipart/form-data">
+        <label for="artistName">Artist Name:</label>
+        <input type="text" name="artistName" id="artistName" required>
+        
+        <label for="artistGenre">Genre:</label>
+        <input type="text" name="artistGenre" id="artistGenre" required>
+        
+        <label for="image">Artist Image:</label>
+        <input type="file" name="image" id="image" required>
+
+        <label for="artistbio">Artist Bio:</label>
+        <input type="text" name="artistbio" id="artistbio" required>
+        
+        <button type="submit">Upload Artist</button>
+    </form>
+
+    <h1>Upload Playlist</h1>
+    <form action="/track/upload-playlist" method="POST" enctype="multipart/form-data">
+        
+        <label for="name">Playlist Name:</label>
+        <input type="text" id="name" name="name" required><br><br>
+        
+        <label for="image">Playlist Image:</label>
+        <input type="file" id="image" name="image"><br><br>
+        
+        <button type="submit">Upload Playlist</button>
+    </form>
+
+    <h1>Upload Album</h1>
+    <form action="/track/upload-albums" method="POST" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="title">Album Title:</label>
+            <input type="text" id="title" name="title" required>
+        </div>
+        <div class="form-group">
+            <label for="artist">Artist:</label>
+            <input type="text" id="artist" name="artist" required>
+        </div>
+        <div class="form-group">
+            <label for="releaseDate">Release Date:</label>
+            <input type="date" id="releaseDate" name="releaseDate">
+        </div>
+        <div class="form-group">
+            <label for="genre">Genre:</label>
+            <input type="text" id="genre" name="genre">
+        </div>
+        <div class="form-group">
+            <label for="image">Album Cover Image:</label>
+            <input type="file" id="image" name="image">
+        </div>
+        <div class="form-group">
+            <button type="submit">Upload Album</button>
+        </div>
+    </form>
+
+    <h1>Upload Genre</h1>
+    <form action="/track/genres/upload" method="POST" enctype="multipart/form-data">
+        <input type="text" name="name" placeholder="Genre Name" required />
+        <input type="file" name="image" accept="image/*" />
+        <button type="submit">Upload Genre</button>
+    </form>
+</body>
+
+</html>

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Successful</title>
+    <link rel="stylesheet" href="/stylesheets/style.css"> <!-- Link to your CSS file -->
+    <style>
+        /* General Body Styling */
+        body {
+            font-family: Arial, sans-serif;
+            color: #f0f0f0;
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+                url("/images/musbackround1_08.jpg");
+            background-size: cover;
+            background-repeat: no-repeat;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Container Styling */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            /* background: rgba(0, 0, 0, 0.8); */
+            /* Semi-transparent background for readability */
+            border-radius: 8px;
+            text-align: center;
+            
+            /* Center-align text and elements */
+        }
+
+        /* Header Styling */
+        header {
+            padding: 20px;
+            border-bottom: 2px solid #444;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            color: #1DB954;
+            /* Gold color for success */
+        }
+
+        /* Success Message Section */
+        .success-message {
+            margin: 20px 0;
+            padding: 20px;
+            background: #1e1e1e;
+            border-radius: 8px;
+        }
+
+        .success-message h2 {
+            margin-top: 0;
+            font-size: 2em;
+            color: #1DB954;
+            /* Gold color for success */
+        }
+
+        .success-message p {
+            font-size: 1.2em;
+            color: #dddddd;
+            margin: 20px 0;
+        }
+
+        .success-message .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 1.2em;
+            color: #fff;
+            background-color: #1DB954;
+            /* Gold color for button */
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .success-message .btn:hover {
+            background-color: #69ff9e;
+            /* Slightly darker gold on hover */
+        }
+
+        /* Footer Styling */
+        footer {
+            text-align: center;
+            padding: 10px;
+            border-top: 2px solid #444;
+            margin-top: 20px;
+        }
+
+        footer p {
+            margin: 0;
+            color: #999999;
+        }
+        .logo a {
+            margin: 10px;
+        }
+
+        .logo img {
+            height: 50px;
+            width: 50px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            display: flex;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="logo" onclick="window.location.href='/'">
+            <a id="theme-toggle"><img src="/images/music-player.png" alt=""></a>
+            <p>Vibe Stream</p>
+        </div>
+        <header>
+            <h1>Payment Successful!</h1>
+        </header>
+
+        <section class="success-message">
+            <h2>Thank you, <%= username %>!</h2>
+            <p>
+                <%= message %>
+            </p>
+            <a href="/" class="btn">Go to Homepage</a>
+        </section>
+
+        <footer>
+            <p>&copy; 2024 Vibe Stream. All rights reserved.</p>
+        </footer>
+    </div>
+</body>
+
+</html>

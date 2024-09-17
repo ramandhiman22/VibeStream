@@ -1,0 +1,95 @@
+<% if (message && message.length) { %>
+    <div class="alert alert-success alert-dismissible">
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        <%= message[0] %>
+    </div>
+    <% } %>
+
+        <% if (error && error.length) { %>
+            <div class="alert alert-danger alert-dismissible">
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                <%= error[0] %>
+            </div>
+            <% } %>
+                <style>
+                    /* Flash Message Container */
+                    .alert {
+                        padding: 15px;
+                        margin-bottom: 20px;
+                        border-radius: 5px;
+                        position: relative;
+                        font-size: 16px;
+                        line-height: 1.5;
+                        opacity: 0.95;
+                        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                        transition: opacity 0.5s ease-out;
+                    }
+
+                    /* Success Alert */
+                    .alert-success {
+                        text-align: center;
+                        background-color: rgb(0,0,0,0.5);
+                        color: green;
+                        border: 1px solid black;
+                    }
+
+                    /* Danger Alert */
+                    .alert-danger {
+                        text-align: center;
+                        background-color: rgb(0,0,0,0.5);
+                        color: red;
+                        border: 1px solid black;
+                    }
+
+                    /* Close Button */
+                    .btn-close {
+                        position: absolute;
+                        top: 10px;
+                        right: 15px;
+                        background: none;
+                        border: none;
+                        color: #000;
+                        font-size: 20px;
+                        font-weight: bold;
+                        cursor: pointer;
+                        opacity: 0.8;
+                    }
+
+                    .btn-close:hover {
+                        opacity: 1;
+                    }
+
+                    /* Adding some animation for fade out */
+                    .alert-dismissible {
+                        animation: fadeIn 1s ease-in-out;
+                    }
+
+                    @keyframes fadeIn {
+                        0% {
+                            opacity: 0;
+                        }
+
+                        100% {
+                            opacity: 1;
+                        }
+                    }
+
+                    /* Optional: Style the alerts to automatically fade out after 5 seconds */
+                    .alert-dismissible {
+                        animation: fadeOut 5s ease-in-out;
+                    }
+
+                    @keyframes fadeOut {
+                        0% {
+                            opacity: 1;
+                        }
+
+                        90% {
+                            opacity: 1;
+                        }
+
+                        100% {
+                            opacity: 0;
+                        }
+                    }
+                </style>

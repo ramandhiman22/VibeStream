@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .footer {
+            /* background-color: #222; Or any color matching your theme */
+            color: white;
+            padding: 20px;
+            height: 100px;
+            text-align: center;
+            position: relative;
+            z-index: 10;
+            /* Ensure the footer is above other elements */
+            box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .footer-content ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-content ul li {
+            display: inline;
+            margin-right: 15px;
+        }
+
+        .footer-content ul li a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .footer-content ul li a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <footer class="footer">
+        <div class="footer-content">
+            <ul>
+                <li><a onclick="window.location.href='/doc/AboutUs'">About Us</a></li>
+                <li><a onclick="window.location.href='/doc/Term&Conditions'">Terms & Conditions</a></li>
+                <li><a onclick="window.location.href='/doc/Privacy&Policy'">Privacy Policy</a></li>
+                <li><a onclick="window.location.href='/doc/ContactUs'">Contact Us</a></li>
+                <li><a onclick="window.location.href='/admin/login'">Admin </a></li>
+            </ul>
+        </div>
+    </footer>
+
+</body>
+
+</html>

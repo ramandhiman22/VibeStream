@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vibe Stream</title>
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <link rel="icon" type="image/x-icon" href="/images/music-player.png">
+    <script src="https://kit.fontawesome.com/3b7b3f7ace.js" crossorigin="anonymous"></script>
+</head>
+
+<body class="dark-theme">
+    <%- include('partials/header') %>
+        <section class="main-content">
+            <div class="carousel">
+                <% carouselItems.forEach(function(song, index) { %>
+                    <div class="carouselsong <%= index === 0 ? 'active' : '' %>"
+                        style="background-image: url('<%= song.imageUrl %>');"
+                        onclick="playSong('<%= song.songPath %>', '<%= song.imageUrl %>', '<%= song.title %>', '<%= song.artist %>')">
+                        <div class="carousel-info">
+                            <h3 style="font-size: 60px;">
+                                <%= song.title %>
+                            </h3>
+                        </div>
+                    </div>
+                    <% }) %>
+
+                        <div class="carouselcontrols">
+                            <button id="prevBtn">&lt;</button>
+                            <button id="nextBtn">&gt;</button>
+                        </div>
+            </div>
+
+            <!-- New Releases Section -->
+            <h3 style="margin: 30px 30px 30px 10px;">New Releases</h3>
+            <div class="new-releases-container">
+                <div class="new-releases">
+                    <% newReleases.forEach((release)=> { %>
+                        <div class="release-item" style="background-image: url('<%= release.image %>');"
+                            onclick="playSong('<%= release.songPath %>', '<%= release.image %>', '<%= release.title %>', '<%= release.artist %>')">
+                            <p>
+                                <%= release.title %>
+                            </p>
+                        </div>
+                        <% }); %>
+                </div>
+                <script id="new-releases-data" type="application/json"
+                    data-new-releases='<%= JSON.stringify(newReleases) %>'></script>
+            </div>
+
+            <!-- Top Indie Artists Section -->
+            <h3 style="margin: 30px 30px 30px 10px;">Top Indie Artists</h3>
+            <div class="artist-container">
+                <div class="artist-carousel">
+                    <% artistList.forEach(artist=> { %>
+                        <div class="artist-item" style="background-image: url('<%= artist.imagePath %>');"
+                            onclick="viewArtist('<%= artist.id %>')">
+                            <p>
+                                <%= artist.name %>
+                            </p>
+                        </div>
+                        <% }); %>
+                </div>
+                <script id="artists-data" type="application/json"
+                    data-artists='<%= JSON.stringify(artistList) %>'></script>
+            </div>
+
+            <!-- Playlists Section -->
+            <h2 style="margin: 30px 30px 30px 10px;">Playlists</h2>
+            <div class="playlist-container">
+                <% playlistList.forEach(playlist=> { %>
+                    <div class="playlist-item" style="background-image: url('<%= playlist.imagePath %>');"
+                        onclick="viewPlaylist('<%= playlist.id %>')">
+                        <p>
+                            <%= playlist.name %>
+                        </p>
+                    </div>
+                    <% }); %>
+                        <script id="playlists-data" type="application/json"
+                            data-playlists='<%= JSON.stringify(playlistList) %>'></script>
+            </div>
+
+            <!-- Albums Section -->
+            <!-- Albums Section -->
+            <h2 style="margin: 60px 30px 30px 10px;">Albums</h2>
+            <div class="album-container">
+                <div class="album-carousel">
+                    <% albums.forEach(album=> { %>
+                        <div class="album-item" style="background-image: url('<%= album.imagePath %>');"
+                            onclick="viewAlbum('<%= album.id %>')">
+                            <p>
+                                <%= album.title %>
+                            </p>
+                        </div>
+                        <% }); %>
+                </div>
+                <script id="albums-data" type="application/json" data-albums='<%= JSON.stringify(albums) %>'></script>
+            </div>
+
+            <!-- Genre Tracks Section -->
+            <h2 style="margin: 30px 30px 30px 10px;">Genre Tracks</h2>
+            <div class="genre-container">
+                <div class="genre-carousel">
+                    <% genreList.forEach(genre=> { %>
+                        <div class="genre-item" style="background-image: url('<%= genre.imagePath %>');"
+                            onclick="viewGenre('<%= genre.id %>')">
+                            <p>
+                                <%= genre.name %>
+                            </p>
+                        </div>
+                        <% }); %>
+                </div>
+                <script id="genres-data" type="application/json"
+                    data-genres='<%= JSON.stringify(genreList) %>'></script>
+            </div>
+
+
+            <%- include('./music.ejs') %>
+        </section>
+        <%- include('partials/footer') %>
+            <script src="/javascripts/control.js"></script>
+            <script src="/javascripts/script.js"></script>
+</body>
+<script>
+    let currentI = 0;
+    const songs = document.querySelectorAll('.carouselsong');
+    const totalSongs = songs.length;
+
+    // Function to show a specific song
+    function showSong(index) {
+        songs.forEach((song, i) => {
+            song.classList.remove('active', 'previous');
+            if (i === index) {
+                song.classList.add('active');
+            } else if (i === (index - 1 + totalSongs) % totalSongs) {
+                song.classList.add('previous');
+            }
+        });
+    }
+
+    // Function to go to the next song
+    function nextSong() {
+        currentI = (currentI + 1) % totalSongs;
+        showSong(currentI);
+    }
+
+    // Function to go to the previous song
+    function prevSong() {
+        currentI = (currentI - 1 + totalSongs) % totalSongs;
+        showSong(currentI);
+    }
+
+    // Set up automatic song change every 5 seconds
+    setInterval(nextSong, 5000);
+
+    // Event listeners for the buttons
+    document.getElementById('nextBtn').addEventListener('click', nextSong);
+    document.getElementById('prevBtn').addEventListener('click', prevSong);
+
+    // Initial display
+    showSong(currentI);
+
+</script>
+
+
+
+</html>
