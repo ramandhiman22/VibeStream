@@ -4,14 +4,14 @@ const bcrypt = require('bcrypt');
 const nodemailer = require("nodemailer");
 const twilio = require("twilio");
 const axios = require('axios');
-
+require('dotenv').config();
 class AuthController {
     static async showLoginForm(req, res) {
-        return res.render('auth/login',{ message: req.flash('info'), error: req.flash('error') });
+        return res.render('auth/login', { message: req.flash('info'), error: req.flash('error') });
     }
 
     static async showSignupForm(req, res) {
-        return res.render('auth/signup',{ message: req.flash('error'), error: req.flash('error') });
+        return res.render('auth/signup', { message: req.flash('error'), error: req.flash('error') });
     }
 
     static async login(req, res) {
@@ -43,7 +43,7 @@ class AuthController {
                
     
                 const accountSid = 'AC1c62bd09bb75fb3951b399363c1c2c80'; // Your Account SID from www.twilio.com/console
-                const authToken = 'd92ca4f4682decc5c93688bcef4ece28';  // Your Auth Token from www.twilio.com/console
+                const authToken = 'e8288bc529e685f938165c015ef883bd';  // Your Auth Token from www.twilio.com/console
                 const client = new twilio(accountSid, authToken);
 
                 await client.messages.create({
@@ -54,10 +54,10 @@ class AuthController {
                 // req.session.userId = user.id;
                 // return res.redirect('/');
                 req.session.email = email;
-                req.flash('info', 'You have login successfully!');
+                // req.flash('info', 'OTP sent successfully! Please verify.');
                 return res.redirect('/auth/verifySms');
             } else {
-                req.flash('error', 'User not found during login');
+                console.log("User not found during login");
                 return res.redirect('/auth/login');
             }
         } catch (error) {
@@ -67,18 +67,17 @@ class AuthController {
         }
     }
 
-
     static async signup(req, res) {
         try {
             const data = req.body;
-    
+
             // Check if the email already exists
             const existingUser = await User.findOne({ where: { email: data.email } });
             if (existingUser) {
                 req.flash('error', 'Email already exists. Please use a different email.');
                 return res.redirect('/auth/signup'); // Redirect back to signup form with error
             }
-    
+
             // If email doesn't exist, proceed with user creation
             const user = new User();
             user.name = data.name;
@@ -87,17 +86,17 @@ class AuthController {
             user.number = data.phone;
             user.status = false;
             await user.save();
-    
+
             // Generate OTP
             const otp = Math.floor((Math.random() * 9000) + 1000);
             await OTP.create({
                 otp: otp.toString(),
                 user_id: user.id // Link OTP to user_id
             });
-    
+
             // Save email in session
             req.session.email = data.email;
-    
+
             // Send OTP via email
             const transporter = nodemailer.createTransport({
                 service: 'gmail',
@@ -106,14 +105,14 @@ class AuthController {
                     pass: 'wtka ucht txfn yycl'
                 }
             });
-    
+
             await transporter.sendMail({
                 from: 'dhimangraman@gmail.com',
                 to: data.email,
                 subject: 'Your OTP Code',
                 text: `Your OTP code is ${otp}`
             });
-    
+
             req.flash('success', 'You have registered successfully! Please verify your email.');
             return res.redirect('/auth/verify'); // Redirect to verification page
         } catch (error) {
@@ -122,10 +121,10 @@ class AuthController {
             return res.redirect('/auth/signup'); // Redirect back to signup form with error
         }
     }
-    
+
 
     static async showVerifyPage(req, res) {
-        return res.render('auth/verify',{ message: req.flash('error'), error: req.flash('error') });
+        return res.render('auth/verify', { message: req.flash('error'), error: req.flash('error') });
     }
     static async Verify(req, res) {
         try {
@@ -172,7 +171,7 @@ class AuthController {
 
 
     static async showSmsVerifyPage(req, res) {
-        return res.render('auth/verifySms',{ message: req.flash('error'), error: req.flash('error') });
+        return res.render('auth/verifySms', { message: req.flash('error'), error: req.flash('error') });
     }
     static async verifySms(req, res) {
         console.log(req.body);
@@ -257,7 +256,7 @@ class AuthController {
     static async showResetPassword(req, res) {
         res.render('auth/reset-password', { errors: req.flash('errors'), success: req.flash('success') });
     }
-    
+
     // Handle OTP verification and password reset
     static async resetPassword(req, res) {
         try {

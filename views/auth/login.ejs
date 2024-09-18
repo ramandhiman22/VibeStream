@@ -195,7 +195,8 @@
           
 
         </div>
-        <div class="g-recaptcha" data-sitekey="6LdKeDAqAAAAAEXjv4RaMVwFBICGFOeg0KANT_LY"></div>
+        <div class="g-recaptcha" data-sitekey="<%= process.env.RECAPTCHA_SITE_KEY %>"></div>
+
         <button type="submit">Log In</button>
         <div class="register">
           <p>Don't have an account? <a href="/auth/signup">Register</a></p>
