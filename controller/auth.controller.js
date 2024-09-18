@@ -20,7 +20,6 @@ class AuthController {
         try {
             // Capture the CAPTCHA response token
             const captchaResponse = req.body['g-recaptcha-response'];
-
             // Verify the CAPTCHA
             const secretKey = process.env.RECAPTCHA_SECRET_KEY;
             const verificationUrl = `https://www.google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${captchaResponse}`;
