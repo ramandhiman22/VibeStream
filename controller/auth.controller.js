@@ -1,3 +1,4 @@
+require('dotenv').config();
 const User = require('../models/user');
 const OTP = require('../models/otp');
 const bcrypt = require('bcrypt');
@@ -21,7 +22,7 @@ class AuthController {
             const captchaResponse = req.body['g-recaptcha-response'];
 
             // Verify the CAPTCHA
-            const secretKey = '6LdKeDAqAAAAAKJw8ZMGqvsEoeNNd4iiE-oxz1LT';
+            const secretKey = process.env.RECAPTCHA_SECRET_KEY;
             const verificationUrl = `https://www.google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${captchaResponse}`;
             const captchaVerification = await axios.post(verificationUrl);
 
@@ -42,8 +43,8 @@ class AuthController {
                 );
                
     
-                const accountSid = 'AC1c62bd09bb75fb3951b399363c1c2c80'; // Your Account SID from www.twilio.com/console
-                const authToken = 'd92ca4f4682decc5c93688bcef4ece28';  // Your Auth Token from www.twilio.com/console
+                const accountSid = process.env.TWILIO_ACCOUNT_SID;
+                const authToken = process.env.TWILIO_AUTH_TOKEN;
                 const client = new twilio(accountSid, authToken);
 
                 await client.messages.create({
@@ -102,8 +103,8 @@ class AuthController {
             const transporter = nodemailer.createTransport({
                 service: 'gmail',
                 auth: {
-                    user: 'dhimangraman@gmail.com',
-                    pass: 'wtka ucht txfn yycl'
+                    user: process.env.GMAIL_USER,
+                    pass: process.env.GMAIL_PASS
                 }
             });
     
