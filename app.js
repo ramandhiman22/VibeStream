@@ -39,6 +39,7 @@ app.use(session({
   secret: 'keyboard cat',
   resave: false,
   saveUninitialized: true,
+  cookie: { secure: false } // Set to true if using HTTPS
 }))
 
 app.use(flash());

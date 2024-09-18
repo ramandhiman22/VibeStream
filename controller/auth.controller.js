@@ -51,7 +51,7 @@ class AuthController {
                     to: '+919149392594',  // Text this number
                     from: '+16464612484'
                 });
-                // req.session.userId = user.id;
+                req.session.userId = user.id;
                 // return res.redirect('/');
                 req.session.email = email;
                 // req.flash('info', 'OTP sent successfully! Please verify.');
